@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace MyBlog;
 
 class Comment extends Model
 {

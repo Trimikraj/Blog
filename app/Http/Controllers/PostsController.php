@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace MyBlog\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Post;
+use MyBlog\Post;
 use Carbon\Carbon;
+use MyBlog\Http\Requests\PostFormRequest;
 
 class PostsController extends Controller
 {
@@ -31,17 +32,16 @@ class PostsController extends Controller
     }
     
     public function create(){
+        
         return view ('posts.create');
     }
 
-    public function store(){
-
-        $this->validate(request(), [
-                'title' => 'required | min:3',
-                'body' => 'required | min:3'
-        ]);
+    public function store(PostFormRequest $request)
+    {
 
         auth()->user()->publish(new Post(request(['title', 'body'])));
+
+        session()->flash('message', '!!! Successfully Published !!!');
         
         return redirect('/');
     }

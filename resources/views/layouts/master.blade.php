@@ -19,14 +19,19 @@
 </head>
 
 <body>
-    @include('layouts.nav')
+    @include('layouts.nav') @if($flash = session('message'))
+    <div class="alert alert-success" role="alert" id="flash-message">
+        {{ $flash }}
+    </div>
+    @endif
 
     <div class="container my-5 p-md-3">
         <div class="jumbotron p-3 p-md-5 text-white rounded bg-dark">
             <div class=" px-0">
                 <h1 class="display-4 font-italic">Welcome to my First Blog</h1>
                 <p class="lead my-3">A simple blog using bootstrap 4 with user authentication, user's posts and comments, and their committed
-                    timestamp.</p>
+                    timestamp.
+                </p>
             </div>
         </div>
         <hr class="mb-0">
@@ -41,5 +46,16 @@
     </div>
     @include('layouts.footer')
 </body>
+
+<script>
+    $(function() {
+        $('#flash-message')
+        .delay(4000)
+        .fadeOut(function() {
+        $(this).remove(); 
+        });
+    });
+
+</script>
 
 </html>

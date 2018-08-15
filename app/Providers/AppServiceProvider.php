@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace MyBlog\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +14,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('layouts.sidebar', function($view){
-            $view->with('archives', \App\Post::archives());
+            $view->with('archives', \MyBlog\Post::archives());
         });
     }
 

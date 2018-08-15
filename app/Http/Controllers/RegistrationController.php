@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace MyBlog\Http\Controllers;
 
-use App\User;
+use MyBlog\User;
+use Mail;
+use MyBlog\Mail\Welcome;
+use MyBlog\Http\Requests\RegistrationFormRequest;
 
 class RegistrationController extends Controller
 {
@@ -15,14 +18,8 @@ class RegistrationController extends Controller
         return view('registrations.create');
     }
 
-    public function store()
+    public function store(RegistrationFormRequest $request)
     {
-        $this->validate(request(), [
-            'name' => 'required | string | min:3 | max:50',
-            'email' => 'required | string | email | max:50 | unique:users',
-            'password' => 'required | string | min:6 | max:50 | confirmed'
-        ]);
-
         $user = new User;
         $user->name = request('name');
         $user->email = request('email');
@@ -30,6 +27,10 @@ class RegistrationController extends Controller
         $user->save();
 
         auth()->login($user);
+
+        session()->flash('message', '!!! Successfully  Registered !!!');
+
+        \Mail::to($user)->send(new Welcome($user));
 
         return redirect()->home();
     }

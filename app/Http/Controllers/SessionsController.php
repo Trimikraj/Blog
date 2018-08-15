@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace MyBlog\Http\Controllers;
 
-use App\User;
+use MyBlog\User;
 
 class SessionsController extends Controller
 {
@@ -18,6 +18,7 @@ class SessionsController extends Controller
         {
             return back();
         }
+
         return view('sessions.create');
     }
 
@@ -31,12 +32,17 @@ class SessionsController extends Controller
             ]);
         }
 
+        session()->flash('message', '!!! Successfully Signed In !!!');
+
         return redirect()->home();
     }
 
     public function destroy()
     {
         auth()->logout();
+
+        session()->flash('message', '!!! Successfully Signed Out !!!');
+
         return redirect()->home();
     }
 }
